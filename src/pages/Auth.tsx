@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Briefcase } from 'lucide-react';
+import { GraduationCap, CheckCircle2, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const Auth = () => {
@@ -13,6 +13,7 @@ const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -32,27 +33,55 @@ const Auth = () => {
     } else if (isLogin) {
       navigate('/dashboard');
     } else {
-      toast({ title: 'Success', description: 'Check your email to confirm your account.' });
+      setSignupSuccess(true);
+      // Auto-redirect to home after 3 seconds
+      setTimeout(() => navigate('/'), 3000);
     }
   };
 
+  if (signupSuccess) {
+    return (
+      <div className="min-h-screen flex items-center justify-center gradient-bg p-4">
+        <Card className="w-full max-w-md animate-scale-in glass-card">
+          <CardContent className="p-10 text-center space-y-6">
+            <div className="mx-auto w-16 h-16 rounded-full bg-success/10 flex items-center justify-center">
+              <CheckCircle2 className="h-8 w-8 text-success" />
+            </div>
+            <div className="space-y-2">
+              <h2 className="text-2xl font-bold">Account created successfully!</h2>
+              <p className="text-muted-foreground">Check your email to confirm your account, then sign in.</p>
+            </div>
+            <div className="flex flex-col gap-3">
+              <Link to="/">
+                <Button className="w-full gradient-primary text-primary-foreground btn-glow">
+                  Go to Home <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <p className="text-xs text-muted-foreground">Redirecting automatically in a few seconds...</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    <div className="min-h-screen flex items-center justify-center gradient-bg p-4">
       <Card className="w-full max-w-md animate-scale-in glass-card">
-        <CardHeader className="text-center space-y-4">
-          <div className="mx-auto gradient-primary rounded-xl p-3 w-fit">
-            <Briefcase className="h-8 w-8 text-primary-foreground" />
+        <CardHeader className="text-center space-y-4 pb-2">
+          <div className="mx-auto gradient-primary rounded-2xl p-3.5 w-fit shadow-lg">
+            <GraduationCap className="h-8 w-8 text-primary-foreground" />
           </div>
-          <div>
+          <div className="space-y-1">
             <CardTitle className="text-2xl font-bold">
               {isLogin ? 'Welcome back' : 'Create account'}
             </CardTitle>
             <CardDescription>
-              {isLogin ? 'Sign in to your PlaceTrack account' : 'Start tracking your placements'}
+              {isLogin ? 'Sign in to Placement Tracker' : 'Start tracking your placements'}
             </CardDescription>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -63,6 +92,7 @@ const Auth = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="h-11"
               />
             </div>
             <div className="space-y-2">
@@ -75,9 +105,10 @@ const Auth = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
+                className="h-11"
               />
             </div>
-            <Button type="submit" className="w-full gradient-primary text-primary-foreground" disabled={loading}>
+            <Button type="submit" className="w-full h-11 gradient-primary text-primary-foreground btn-glow font-semibold" disabled={loading}>
               {loading ? 'Loading...' : isLogin ? 'Sign In' : 'Sign Up'}
             </Button>
           </form>

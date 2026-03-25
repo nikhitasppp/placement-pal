@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --background: 220 20% 97%;
+    --background: 228 25% 96%;
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
@@ -96,11 +96,19 @@
 
 @layer utilities {
   .glass-card {
-    @apply bg-card/80 backdrop-blur-lg border border-border/50 shadow-lg;
+    @apply bg-card/70 backdrop-blur-xl border border-border/40 shadow-xl rounded-2xl;
   }
 
   .gradient-primary {
     background: linear-gradient(135deg, hsl(221, 83%, 53%), hsl(260, 60%, 55%));
+  }
+
+  .gradient-bg {
+    background: linear-gradient(135deg, hsl(221, 83%, 95%), hsl(260, 60%, 95%), hsl(221, 83%, 97%));
+  }
+
+  .dark .gradient-bg {
+    background: linear-gradient(135deg, hsl(222, 47%, 8%), hsl(260, 30%, 10%), hsl(222, 47%, 6%));
   }
 
   .gradient-text {
@@ -110,12 +118,28 @@
     background-clip: text;
   }
 
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -12px hsl(221 83% 53% / 0.15);
+  }
+
+  .btn-glow {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+  .btn-glow:hover {
+    box-shadow: 0 0 24px hsl(221 83% 53% / 0.4);
+    transform: scale(1.02);
+  }
+
   .animate-fade-in {
     animation: fadeIn 0.5s ease-out;
   }
 
   .animate-slide-up {
-    animation: slideUp 0.5s ease-out;
+    animation: slideUp 0.5s ease-out both;
   }
 
   .animate-scale-in {
