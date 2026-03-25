@@ -9,7 +9,7 @@ import {
   LogOut,
   Menu,
   X,
-  Briefcase,
+  GraduationCap,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -32,27 +32,27 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen gradient-bg">
       {/* Top navbar */}
-      <header className="sticky top-0 z-50 glass-card border-b">
+      <header className="sticky top-0 z-50 bg-card/60 backdrop-blur-xl border-b border-border/40 shadow-sm">
         <div className="container flex h-16 items-center justify-between">
-          <Link to="/dashboard" className="flex items-center gap-2">
-            <div className="gradient-primary rounded-lg p-2">
-              <Briefcase className="h-5 w-5 text-primary-foreground" />
+          <Link to="/dashboard" className="flex items-center gap-2.5 group">
+            <div className="gradient-primary rounded-xl p-2 shadow-md group-hover:shadow-lg transition-shadow duration-300">
+              <GraduationCap className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="text-lg font-bold">PlaceTrack</span>
+            <span className="text-lg font-extrabold tracking-tight">Placement Tracker</span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1 bg-muted/50 rounded-full p-1">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                   location.pathname === item.path
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    ? 'gradient-primary text-primary-foreground shadow-md'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-card/80'
                 }`}
               >
                 <item.icon className="h-4 w-4" />
@@ -62,7 +62,7 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={handleSignOut} className="hidden md:flex items-center gap-2">
+            <Button variant="ghost" size="sm" onClick={handleSignOut} className="hidden md:flex items-center gap-2 hover:bg-destructive/10 hover:text-destructive transition-colors">
               <LogOut className="h-4 w-4" />
               Sign Out
             </Button>
@@ -75,16 +75,16 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="md:hidden fixed inset-x-0 top-16 z-40 bg-card border-b shadow-lg animate-slide-up">
+        <div className="md:hidden fixed inset-x-0 top-16 z-40 bg-card/90 backdrop-blur-xl border-b border-border/40 shadow-xl animate-slide-up">
           <nav className="container py-4 flex flex-col gap-1">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
                 onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
                   location.pathname === item.path
-                    ? 'bg-primary text-primary-foreground'
+                    ? 'gradient-primary text-primary-foreground shadow-md'
                     : 'text-muted-foreground hover:bg-muted'
                 }`}
               >
@@ -94,7 +94,7 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
             ))}
             <button
               onClick={handleSignOut}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors"
             >
               <LogOut className="h-4 w-4" />
               Sign Out
